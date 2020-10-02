@@ -4,7 +4,12 @@
             <img class="card-img" src="{{ $product->image }}" alt="{{ $product->name }}" />
             <ul class="card-product__imgOverlay">
                 <li><button><i class="fa fa-search"></i></button></li>
-                <li><button><i class="fa fa-shopping-cart"></i></button></li>
+                <li>
+                    <form method="POST" action="{{ route('cart.store', $product) }}">
+                        @csrf
+                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                    </form>
+                </li>
                 <li><button><i class="fa fa-heart"></i></button></li>
             </ul>
         </div>

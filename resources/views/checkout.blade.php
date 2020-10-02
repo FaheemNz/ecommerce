@@ -11,7 +11,7 @@
     <!--================Checkout Area =================-->
     <section class="checkout_area section-margin--small">
         <div class="container">
-            <div class="billing_details shadow p-4">
+            <div class="billing_details shadow p-5">
                 <div class="row">
                     <div class="col-lg-12">
                         <h3>Address</h3>
@@ -52,11 +52,11 @@
                             <div class="form-group col-md-12">
                                 <h4><i class="fa fa-money"></i> Payment</h4>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label for="name_on_card">Name on Card</label>
                                 <input type="text" class="form-control" id="name_on_card" name="name_on_card" value="">
                             </div>
-
                             <div class="form-group col-md-12">
                                 <label for="card-element">
                                     Credit or debit card
