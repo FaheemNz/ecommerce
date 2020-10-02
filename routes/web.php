@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('/contact', 'contact')->name('contact');
 
 Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index']);
 
