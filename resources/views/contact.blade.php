@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
 <!-- ================ start banner area ================= -->
 <section class="blog-banner-area" id="contact">
     <div class="container h-100">

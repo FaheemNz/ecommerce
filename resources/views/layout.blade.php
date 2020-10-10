@@ -23,14 +23,17 @@
     @yield('extra-css')
 </head>
 
+<body>
+    <div id="app">
+        @include('partials.nav')
 
-<body class="@yield('body-class', '')">
-    @include('partials.nav')
+        @yield('content')
 
-    @yield('content')
+        @include('partials.footer')
+        
+        <flash></flash>
+    </div>
 
-    @include('partials.footer')
-    
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('extra-js')
 </body>

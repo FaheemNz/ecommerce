@@ -14,6 +14,6 @@ class Category extends Model
     // Relationships
     public function products()
     {
-        return $this->belongsToMany('App\Product');
+        return $this->belongsToMany('App\Models\Product');
     }
 }

@@ -62,7 +62,21 @@
             </table>
         </div>
     </div>
-    <div class="mt-4 pr-2 table-responsive">
+    <div class="row justify-content-end">
+        <form class="col-md-5" action="{{ route('coupon.store') }}" method="POST">
+            @csrf
+            <div class="form-group col-md-12 my-3">
+                <label for="">Have a Coupon?</label>
+                <div class="input-group">
+                    <input type="text" required class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mt-4 pr-2">
         <div class="d-flex flex-column align-items-end">
             <div class="d-flex align-items-center mb-2">
                 <h6 class="mr-3">Shipping</h6>
@@ -177,7 +191,7 @@
         .forEach(cartItemSelect => {
             cartItemSelect.addEventListener('change', onQuantityUpdate);
         });
-        
+
         function onQuantityUpdate() {
             const id = this.dataset.id,
                 data = {

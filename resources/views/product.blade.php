@@ -9,6 +9,7 @@
 <!--================Single Product Area =================-->
 <div class="product_image_area">
     <div class="container">
+        <x-session-feedback />
         <div class="row s_product_inner">
             <div class="col-lg-6">
                 <div class="product-image">

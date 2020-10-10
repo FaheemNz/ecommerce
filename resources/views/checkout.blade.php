@@ -2,7 +2,7 @@
 
 @section('content')
 
-<x-breadcrumbs link2="Checkout" />
+<x-breadcrumbs title="Checkout" link2="Checkout" />
 
 <div class="container">
 
@@ -123,10 +123,11 @@
 
 @endsection
 
+
 @section('extra-js')
-<script src="https://js.stripe.com/v3/"></script>
 <script>
     (function() {
+        return;
         // Create a Stripe client.
         var stripe = Stripe('pk_test_51HVHIhFPntJqCTcykSNqz67meGfx3VPECxD7X2Rl0niJcYShDnvdKPNFbzH5XcPjuZykASUZsdM35yspZqdiPImp00JB9IFd85');
 

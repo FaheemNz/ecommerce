@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ProductFilter;
 use App\Models\Product;
 
 class ShopController extends Controller
 {
-    public function index()
+    public function index(ProductFilter $filters)
     {
-        $products = (new Product)->getRandomProducts(12);
-        return view('shop', compact('products'));
+        $products = Product::filter($filters)->paginate();
+        return view('shop', [
+            'products' => $products
+        ]);
     }
 
-    public function show(Product $product)
+    public function show()
     {
-        $mightAlsoLikeProducts = (new Product)->getRandomProducts(4, ['slug', '!=', $product->slug]);
+        $product = Product::with('comments:id,body,rating,commentable_id,user_id,created_at')->where('id', 1)->first();
+        $mightAlsoLikeProducts = $product->getFeaturedProducts();
+        
         return view('product', [
             'product' => $product,
-            'mightAlsoLikeProducts' => $mightAlsoLikeProducts
+            'mightAlsoLikeProducts' => $mightAlsoLikeProducts,
         ]);
     }
 }

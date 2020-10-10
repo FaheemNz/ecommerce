@@ -10913,12 +10913,62 @@ a.text-dark:focus {
 }
 
 .empty-state-icon {
-  cursor: pointer;
-  transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
   font-size: 80px;
 }
 
-.empty-state-icon:hover {
-  transform: rotate(360deg);
+.is-rounded {
+  border-radius: 36px;
+}
+
+.flash {
+  position: fixed;
+  right: 10px;
+  top: 20px;
+  z-index: 99999;
+}
+
+.filter-list.is-active {
+  border-left: 2px solid #4582f6;
+}
+
+.rate {
+  height: 40px;
+  padding: 0 10px;
+}
+
+.rate:not(:checked) > input {
+  position: absolute;
+  display: none;
+}
+
+.rate:not(:checked) > label {
+  float: right;
+  width: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 22px;
+  color: #ccc;
+}
+
+.rate:not(:checked) > label:before {
+  content: "\2605   ";
+}
+
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
 }
 

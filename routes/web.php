@@ -8,7 +8,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::view('/contact', 'contact')->name('contact');
 
-Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index']);
+Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index'])->name('landing');
 
 Route::group(['name' => 'shop'], function () {
     Route::get('shop', [App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
@@ -26,10 +26,18 @@ Route::group(['name' => 'cart', 'middleware' => 'auth'], function () {
         Route::put('/cart/later/{product}', [App\Http\Controllers\SaveForLaterController::class, 'update'])->name('saveForLater.update');
         Route::delete('/cart/later/{product}', [App\Http\Controllers\SaveForLaterController::class, 'destroy'])->name('saveForLater.destroy');
     });
+
+    Route::group(['name' => 'product.comments'], function () {
+        Route::post('/product/{product}/comments', [App\Http\Controllers\ProductCommentController::class, 'store'])->name('comment.store');
+        Route::delete('/products/{product}/comments/{comment}', [App\Http\Controllers\ProductCommentController::class, 'destroy'])->name('comment.destroy');
+    });
 });
 
 Route::group(['name' => 'checkout', 'middleware' => 'auth'], function () {
     Route::get('checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('thankyou', [App\Http\Controllers\ConfirmationController::class, 'index']);
+    
+    Route::post('/coupon', [App\Http\Controllers\CouponController::class, 'store'])->name('coupon.store');
+    Route::delete('/coupon', [App\Http\Controllers\CouponController::class, 'destroy'])->name('coupon.destroy');
 });

@@ -34,7 +34,7 @@
                             <h4>Shop is fun</h4>
                             <h1>Browse Our Premium Product</h1>
                             <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
-                            <a class="button button-hero" href="#">Browse Now</a>
+                            <a class="button button-hero" href="{{ route('shop.index') }}">Browse Now</a>
                         </div>
                     </div>
                 </div>
@@ -63,14 +63,16 @@
             <div class="container">
                 <div class="section-intro pb-60px">
                     <p>Popular Item in the market</p>
-                    <h2>Trending <span class="section-intro__style">Product</span></h2>
+                    <h2>Featured <span class="section-intro__style">Product</span></h2>
                 </div>
                 <div class="row">
-                    @foreach($products as $product)
+                    @forelse($products as $product)
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <x-product.single-product :product="$product" />
                     </div>
-                    @endforeach
+                    @empty
+                    <x-empty-icon title="No Featured Products..." />
+                    @endforelse
                 </div>
             </div>
         </section>

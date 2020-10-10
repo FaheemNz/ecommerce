@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Cart;
 use Gloudemans\Shoppingcart\Facades\Cart as StoreCart;
+use Illuminate\Contracts\Cache\Store;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $mightAlsoLikeProducts = (new Product)->getRandomProducts(4);
+        $mightAlsoLikeProducts = (new Product)->getFeaturedProducts(4);
         return view('cart', compact('mightAlsoLikeProducts'));
     }
 
@@ -19,12 +20,11 @@ class CartController extends Controller
         $cart = new Cart;
 
         if ($cart->itemAlreadyExists($product->id)) {
-            return redirect()->route('cart.index')
-                ->with('success_message', 'Item is already added in the cart!');
+            return response()->json(['message' => 'Item already exists in the cart'], 200);
         }
 
         $cart->add($product);
-        return redirect()->route('cart.index')->with('success_message', 'Item added to the cart');
+        return response()->json(['message' => 'Item has been added in the cart', 'newCount' => StoreCart::count()], 201);
     }
 
     public function destroy(string $rowId)

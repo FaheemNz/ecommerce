@@ -19,13 +19,16 @@
                         <li class="common-filter">
                             <form action="#">
                                 <ul>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label for="men">Men<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="women" name="brand"><label for="women">Women<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="accessories" name="brand"><label for="accessories">Accessories<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="footwear" name="brand"><label for="footwear">Footwear<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="bayItem" name="brand"><label for="bayItem">Bay item<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="electronics" name="brand"><label for="electronics">Electronics<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="food" name="brand"><label for="food">Food<span> (3600)</span></label></li>
+                                    <li class="filter-list">
+                                        <a class="text-dark" href="{{ route('shop.index') }}">All</a>
+                                    </li>
+                                    @forelse($_Categories_ as $category)
+                                    <li class="filter-list">
+                                        <a class="{{ request()->category === $category->slug ? 'text-primary border d-block pl-2' : 'text-dark' }}" href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                    </li>
+                                    @empty
+                                    <p class="text-center">No Categories...</p>
+                                    @endforelse
                                 </ul>
                             </form>
                         </li>
@@ -61,16 +64,8 @@
                     </div>
                     <div class="common-filter">
                         <div class="head">Price</div>
-                        <div class="price-range-area">
-                            <div id="price-range"></div>
-                            <div class="value-wrapper d-flex">
-                                <div class="price">Price:</div>
-                                <span>$</span>
-                                <div id="lower-value"></div>
-                                <div class="to">to</div>
-                                <span>$</span>
-                                <div id="upper-value"></div>
-                            </div>
+                        <div class="form-group px-4">
+                            <input type="range" class="form-control-range" id="formControlRange">
                         </div>
                     </div>
                 </div>
@@ -78,19 +73,9 @@
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex flex-wrap align-items-center">
-                    <div class="sorting">
-                        <select>
-                            <option value="1">Default sorting</option>
-                            <option value="1">Default sorting</option>
-                            <option value="1">Default sorting</option>
-                        </select>
-                    </div>
-                    <div class="sorting mr-auto">
-                        <select>
-                            <option value="1">Show 12</option>
-                            <option value="1">Show 12</option>
-                            <option value="1">Show 12</option>
-                        </select>
+                    <div class="sorting mr-auto btn-group">
+                        <a href="{{ route('shop.index', ['sort' => 'low']) }}" class="btn btn-primary btn-sm text-white">Low to High</a>
+                        <a href="{{ route('shop.index', ['sort' => 'high']) }}" class="btn btn-primary btn-sm text-white">High to Low</a>
                     </div>
                     <div>
                         <div class="input-group filter-bar-search">
@@ -110,8 +95,15 @@
                             <x-product.single-product :product="$product" />
                         </div>
                         @empty
-                        <x-empty-icon title="No Products Yet" />
+                        <div class="col-md-12">
+                            <x-empty-icon title="No Products Found..." />
+                        </div>
                         @endforelse
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ $products->appends(request()->input())->links() }}
+                        </div>
                     </div>
                 </section>
                 <!-- End Best Seller -->

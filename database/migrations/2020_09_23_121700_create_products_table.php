@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('image');
             $table->string('images');
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

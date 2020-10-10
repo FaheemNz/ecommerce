@@ -2,37 +2,63 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Filters\ProductFilter;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
 
+    protected const MIN_RATING = 1;
+    protected const MAX_RATING = 5;
+
     // Logic
-    public function getRandomProducts(int $limit = 5, $where = null)
+    public function addComment($request)
     {
-        $products = Product::query();
-        if ($where) $products->where($where[0], $where[1] ?? '=', $where[2]);
-        return $products->inRandomOrder()->take($limit)->get();
+        if ($request['rating'] < self::MIN_RATING || $request['rating'] > self::MAX_RATING) {
+            throw new \InvalidArgumentException("Invalid Rating Given");
+        }
+        
+        $this->comments()->create([
+            'body' => $request['body'],
+            'user_id' => auth()->id(),
+            'rating' => $request['rating']
+        ]);
     }
 
-    public function getFormattedPriceAttribute()
+    public function getFeaturedProducts(int $limit = 4)
     {
-        return presentPrice($this->price);
+        return Product::where('is_featured', true)->take($limit)->get();
+    }
+
+    public function getRating()
+    {
+        return number_format($this->comments->avg('rating'), 1);
     }
 
     // Relationships
     public function categories()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Models\Category');
+    }
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
     // Accessors
     public function getImageAttribute($value)
     {
         return asset('img/' . $value);
+    }
+    public function getFormattedPriceAttribute()
+    {
+        return presentPrice($this->price);
+    }
+
+    // Scopes
+    public function scopeFilter($query, ProductFilter $productFilter)
+    {
+        return $productFilter->apply($query);
     }
 }
