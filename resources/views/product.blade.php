@@ -25,7 +25,11 @@
                         <li><a href="#"><span>Availibility</span> : In Stock</a></li>
                     </ul>
                     <p>{{ $product->details }}</p>
+                    
+                    @auth
                     <add-to-cart text="Add to Cart" :id="{{ $product->id }}" />
+                    @endauth
+                    
                     <div class="card_area d-flex align-items-center">
                         <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a>
                         <a class="icon_btn" href="#"><i class="fa fa-heart"></i></a>
