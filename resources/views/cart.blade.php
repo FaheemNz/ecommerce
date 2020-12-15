@@ -62,13 +62,14 @@
             </table>
         </div>
     </div>
+    @if( ! session()->has('coupon') )
     <div class="row justify-content-end">
         <form class="col-md-5" action="{{ route('coupon.store') }}" method="POST">
             @csrf
             <div class="form-group col-md-12 my-3">
                 <label for="">Have a Coupon?</label>
                 <div class="input-group">
-                    <input type="text" required class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input id="coupon_code" name="coupon_code" type="text" required class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Apply</button>
                     </div>
@@ -76,12 +77,28 @@
             </div>
         </form>
     </div>
+    @endif
     <div class="mt-4 pr-2">
         <div class="d-flex flex-column align-items-end">
             <div class="d-flex align-items-center mb-2">
                 <h6 class="mr-3">Shipping</h6>
                 <h6 style="min-width: 100px; text-align: right">Free</h6>
             </div>
+            @if( session()->has('coupon') )
+            <div class="d-flex align-items-center mb-2">
+                <div class="d-flex">
+                    <form action="{{ route('coupon.destroy') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn mr-2 btn-outline-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                    <h6 class="mr-3">Discount ({{ session()->get('coupon')['name'] }})</h6>
+                </div>
+                <h6 style="min-width: 100px; text-align: right">-{{ presentPrice(session()->get('coupon')['discount']) }}</h6>
+            </div>
+            @endif
             <div class="d-flex align-items-center mb-2">
                 <h6 class="mr-3">Tax (%)</h6>
                 <h6 style="min-width: 100px; text-align: right">{{ config('cart.tax') }}%</h6>
@@ -98,6 +115,7 @@
                 <h6 class="mr-3">Total</h6>
                 <h6 id="cart-total" style="min-width: 100px; text-align: right">{{ presentPrice( Cart::total() ) }}</h6>
             </div>
+            
             <div class="d-flex mt-4 align-items-center">
                 <div>
                     <a href="{{ route('shop.index') }}" class="button mr-3">Continue Shopping</a>
@@ -118,7 +136,7 @@
         <a href="{{ route('shop.index') }}" class="button mt-3">Go Shopping</a>
     </div>
     @endif
-
+    
     <!-- ================= Save For Later ============= -->
     @if( Cart::instance('saveForLater')->count() > 0 )
     <div class="cart_inner">
@@ -179,7 +197,7 @@
     <h6 class="container text-center mt-5">You have no items saved for later...</h6>
     @endif
 </div>
-
+    
 @include('partials.might-like')
 
 @endsection

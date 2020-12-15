@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CouponController extends Controller
 {
-    // public function store()
-    // {
-    //     $couponCreated = Coupon::create( request()->all() );
+    public function store()
+    {
+        $coupon = Coupon::where('code', request()->input('coupon_code'))->first();
 
-    //     if ($couponCreated) {
-    //         return redirect()->back()->with('success_message', 'Coupon has been applied');
-    //     }
-    // }
+        if (!$coupon) return redirect()->back()->withErrors('Invalid coupon code.');
 
-    // public function destroy(Coupon $coupon): bool
-    // {
-    //     if ($coupon->exists()) {
-    //         return $coupon->delete();
-    //     }
-        
-    //     return false;
-    // }
+        session()->put('coupon', [
+            'name' => $coupon->code,
+            'discount' => $coupon->discount(Cart::subtotal())
+        ]);
+        return redirect()->back()->with('success_message', 'Got it!');
+    }
+
+    public function destroy()
+    {
+        session()->forget('coupon');
+        return redirect()->back()->with('success_message', 'Coupon removed!');
+    }
 }

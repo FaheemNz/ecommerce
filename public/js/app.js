@@ -1914,8 +1914,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["id"],
+  props: ["id", "text"],
   methods: {
     addItemToCart: function addItemToCart() {
       axios.post("/cart/".concat(this.id)).then(function (response) {
@@ -20450,18 +20451,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "button",
-    {
-      on: {
-        click: function($event) {
-          $event.preventDefault()
-          return _vm.addItemToCart($event)
-        }
-      }
-    },
-    [_c("i", { staticClass: "fa fa-shopping-cart" })]
-  )
+  return _vm.text
+    ? _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.addItemToCart($event)
+            }
+          }
+        },
+        [_vm._v(_vm._s(_vm.text))]
+      )
+    : _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.addItemToCart($event)
+            }
+          }
+        },
+        [_c("i", { staticClass: "fa fa-shopping-cart" })]
+      )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,12 +1,13 @@
 <template>
-  <button @click.prevent="addItemToCart">
+  <button v-if="text" class="btn btn-primary" @click.prevent="addItemToCart">{{ text }}</button>
+  <button v-else @click.prevent="addItemToCart">
     <i class="fa fa-shopping-cart"></i>
   </button>
 </template>
 
 <script>
 export default {
-  props: ["id"],
+  props: ["id", "text"],
 
   methods: {
     addItemToCart() {
