@@ -127,7 +127,6 @@
 @section('extra-js')
 <script>
     (function() {
-        return;
         // Create a Stripe client.
         var stripe = Stripe('pk_test_51HVHIhFPntJqCTcykSNqz67meGfx3VPECxD7X2Rl0niJcYShDnvdKPNFbzH5XcPjuZykASUZsdM35yspZqdiPImp00JB9IFd85');
 

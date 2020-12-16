@@ -15,11 +15,11 @@ class ShopController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(Product $product)
     {
-        $product = Product::with('comments:id,body,rating,commentable_id,user_id,created_at')->where('id', 1)->first();
+        $product = $product->load('comments:id,body,rating,commentable_id,user_id,created_at');
         $mightAlsoLikeProducts = $product->getFeaturedProducts();
-        
+
         return view('product', [
             'product' => $product,
             'mightAlsoLikeProducts' => $mightAlsoLikeProducts,
