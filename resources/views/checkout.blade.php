@@ -120,11 +120,11 @@
     </section>
     <!--================End Checkout Area =================-->
 </div>
-
 @endsection
 
-
 @section('extra-js')
+
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     (function() {
         // Create a Stripe client.

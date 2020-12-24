@@ -41,3 +41,8 @@ Route::group(['name' => 'checkout', 'middleware' => 'auth'], function () {
     Route::post('/coupon', [App\Http\Controllers\CouponController::class, 'store'])->name('coupon.store');
     Route::delete('/coupon', [App\Http\Controllers\CouponController::class, 'destroy'])->name('coupon.destroy');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

@@ -17,7 +17,8 @@ class CouponController extends Controller
             'name' => $coupon->code,
             'discount' => $coupon->discount(Cart::subtotal())
         ]);
-        return redirect()->back()->with('success_message', 'Got it!');
+        
+        return redirect()->back()->with('success_message', 'Coupon Applied successfully!');
     }
 
     public function destroy()
