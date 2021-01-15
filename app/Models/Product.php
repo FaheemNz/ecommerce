@@ -47,10 +47,10 @@ class Product extends Model
     }
 
     // Accessors
-    public function getImageAttribute($value)
-    {
-        return asset('img/' . $value);
-    }
+    // public function getImageAttribute($value)
+    // {
+    //     return file_exists('storage/' . $value) ? asset('storage/' . $value) : asset('img/' . $value);
+    // }
     public function getFormattedPriceAttribute()
     {
         return presentPrice($this->price);

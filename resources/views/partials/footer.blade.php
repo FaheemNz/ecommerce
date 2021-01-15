@@ -17,11 +17,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-footer-widget tp_widgets">
                         <h4 class="footer_title">Quick Links</h4>
-                        <ul class="list">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="{{ route('shop.index') }}">Shop</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
+                        {{ menu('footer-menu', 'partials.menus.footer-menu') }}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">

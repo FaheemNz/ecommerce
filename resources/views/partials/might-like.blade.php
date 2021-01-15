@@ -9,7 +9,7 @@
             @foreach($mightAlsoLikeProducts as $product)
             <div class="col-md-3">
                 <div class="single-search-product d-flex">
-                    <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ $product->image }}" alt=""></a>
+                    <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ presentImage($product->image) }}" alt=""></a>
                     <div class="desc">
                         <a href="{{ route('shop.show', $product->slug) }}" class="title">{{ $product->name }}</a>
                         <div class="price">{{ $product->formatted_price }}</div>

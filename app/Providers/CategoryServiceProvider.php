@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Category;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -26,7 +27,7 @@ class CategoryServiceProvider extends ServiceProvider
     {
         view()->composer('shop', function ($view) {
             $categories = Cache::rememberForever('_Categories_', function () {
-                return \App\Models\Category::all();
+                return Category::all();
             });
 
             $view->with('_Categories_', $categories);
