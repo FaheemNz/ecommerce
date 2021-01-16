@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OnOrderProcessed;
 use App\Http\Requests\CheckoutRequest;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
@@ -29,10 +30,14 @@ class CheckoutController extends Controller
                 ]
             ]);
 
-            Cart::instance('default')->destroy();
+            event(new OnOrderProcessed($checkoutRequest, null));
+
             return redirect('thankyou')->with('success_message', 'Payment Recieved!');
         } catch (CardErrorException $e) {
+            event(new OnOrderProcessed($checkoutRequest, $e->getMessage()));
             return redirect()->back()->withErrors($e->getMessage());
+        } finally {
+            Cart::instance('default')->destroy();
         }
     }
 }
