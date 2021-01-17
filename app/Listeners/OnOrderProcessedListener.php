@@ -6,8 +6,6 @@ use App\Events\OnOrderProcessed;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class OnOrderProcessedListener
 {
@@ -48,11 +46,15 @@ class OnOrderProcessedListener
             'error' => $event->error,
         ]);
         
-        // Insert into order_product pivot table
+        // Prepare for bulk Insert into order_product pivot table
         foreach(Cart::content() as $cartItem){
-            $cartContent[] = ['order_id' => $cartItem->id, 'product_id' => $cartItem->model->id, 'quantity' => $cartItem->qty];
+            $cartContent[] = ['order_id' => $order->id, 'product_id' => $cartItem->model->id, 'quantity' => $cartItem->qty];
         }
         
+        // Insert
         OrderProduct::insert($cartContent);
+        
+        // Send Email to the User
+        $order->sendOrderProcessedEmail();
     }
 }

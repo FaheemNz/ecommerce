@@ -58,7 +58,7 @@
         <div class="container">
             <div class="row d-flex">
                 <p class="col-lg-12 footer-text text-center">
-                    Copyright &copy; All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    Copyright &copy; All rights reserved</a>
                 </p>
             </div>
         </div>

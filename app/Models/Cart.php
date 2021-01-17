@@ -29,7 +29,7 @@ class Cart extends Model
                 $model->name,
                 1,
                 $model->price,
-                ['slug' => $model->slug, 'details' => $model->details, 'image' => $model->image]
+                ['slug' => $model->slug, 'details' => $model->details, 'image' => $model->image, 'totalQty' => $model->quantity]
             )
             ->associate('App\Models\Product');
     }

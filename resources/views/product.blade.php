@@ -19,7 +19,7 @@
                     <img src="{{ presentImage($product->image) }}" class="is-selected" alt="">
                     @if($product->images)
                     @foreach( json_decode($product->images, true) as $image )
-                        <img src="{{ presentImage($image) }}" alt="" />
+                    <img src="{{ presentImage($image) }}" alt="" />
                     @endforeach
                     @endif
                 </div>
@@ -33,14 +33,14 @@
                     <h2>{{ $product->formatted_price }}</h2>
                     <ul class="list">
                         <li><a class="active" href="#"><span>Category</span> : Household</a></li>
-                        <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                        <li><a href="#" class="mr-1"><span>Availibility</span> : </a>{!! $stockLevel !!}</li>
                     </ul>
                     <p>{{ $product->details }}</p>
                     <div>{!! $product->description !!}</div>
 
-                    @auth
-                    <add-to-cart text="Add to Cart" :id="{{ $product->id }}" />
-                    @endauth
+                    <?php if (auth()->check() && $product->quantity > 0) : ?>
+                        <add-to-cart text="Add to Cart" :id="{{ $product->id }}" />
+                    <?php endif; ?>
 
                     <div class="card_area d-flex align-items-center">
                         <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a>
@@ -69,7 +69,7 @@
         productImages.forEach(image => image.addEventListener('click', onImageSelected));
 
         function onImageSelected(e) {
-            productImages.forEach(image =>  image.classList.remove('is-selected'));
+            productImages.forEach(image => image.classList.remove('is-selected'));
             mainImage.src = e.target.src;
             this.classList.add('is-selected');
         }

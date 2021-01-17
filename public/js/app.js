@@ -1915,15 +1915,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id", "text"],
   methods: {
     addItemToCart: function addItemToCart() {
       axios.post("/cart/".concat(this.id)).then(function (response) {
         if (response.status === 201) {
-          console.log("exists");
+          var navCount = document.getElementById("cart-nav-items-count");
+          navCount.innerHTML = response.data.newCount;
           flash(response.data.message, "alert-success");
-          document.getElementById("cart-nav-items-count").innerHTML = response.data.newCount;
           return;
         }
 
@@ -20463,7 +20465,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v(_vm._s(_vm.text))]
+        [_vm._v("\n  " + _vm._s(_vm.text) + "\n")]
       )
     : _c(
         "button",

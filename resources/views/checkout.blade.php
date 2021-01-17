@@ -171,12 +171,13 @@
         });
 
         // Handle form submission.
-        var form = document.getElementById('payment-form');
+        var form = document.getElementById('payment-form'),
+            submitButton = document.getElementById('complete-order');
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-
+            
             // Disable submit button
-            document.getElementById('complete-order').disabled = true;
+            submitButton.disabled = true;
 
             let options = {
                 name: document.getElementById('name_on_card').value,
@@ -191,7 +192,7 @@
                     // Inform the user if there was an error.
                     var errorElement = document.getElementById('card-errors');
                     errorElement.textContent = result.error.message;
-                    document.getElementById('complete-order').disabled = false;
+                    submitButton.disabled = false;
                 } else {
                     // Send the token to your server.
                     stripeTokenHandler(result.token);
@@ -211,6 +212,9 @@
 
             // Submit the form
             form.submit();
+            
+            // Enable Submit Button
+            submitButton.disabled = false;
         }
     })();
 </script>

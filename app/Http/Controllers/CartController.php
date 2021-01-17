@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Cart;
 use Gloudemans\Shoppingcart\Facades\Cart as StoreCart;
-use Illuminate\Contracts\Cache\Store;
 
 class CartController extends Controller
 {
@@ -18,12 +17,16 @@ class CartController extends Controller
     public function store(Product $product)
     {
         $cart = new Cart;
-
+        
         if ($cart->itemAlreadyExists($product->id)) {
             return response()->json(['message' => 'Item already exists in the cart'], 200);
         }
+        if($product->quantity == 0){
+            return response()->json(['message' => 'Item not available'], 200);
+        }
 
         $cart->add($product);
+
         return response()->json(['message' => 'Item has been added in the cart', 'newCount' => StoreCart::count()], 201);
     }
 
@@ -35,18 +38,22 @@ class CartController extends Controller
 
     public function update(string $rowId)
     {
-        $updatedCart = (new Cart)->updateCart($rowId, request()->input('quantity'));
+        $newQuantity = request()->input('quantity');
+        $totalQuantity = request()->input('totalQuantity');
 
-        if ($updatedCart) {
-            return response()->json(
-                [
-                    'qty' => StoreCart::count(),
-                    'total' => presentPrice(StoreCart::total()),
-                    'subtotal' => presentPrice(StoreCart::subTotal()),
-                    'tax' => presentPrice(StoreCart::tax())
-                ],
-                202
-            );
+        if ($newQuantity > $totalQuantity) {
+            return response()->json(['error' => 'Product quantity cant be updated! Check inStock status.'], 400);
+        }
+
+        $cartUpdated = (new Cart)->updateCart($rowId, $newQuantity);
+
+        if ($cartUpdated) {
+            return response()->json([
+                'qty' => StoreCart::count(),
+                'total' => presentPrice(StoreCart::total()),
+                'subtotal' => presentPrice(StoreCart::subTotal()),
+                'tax' => presentPrice(StoreCart::tax())
+            ], 202);
         }
     }
 }

@@ -23,6 +23,21 @@ class ShopController extends Controller
         return view('product', [
             'product' => $product,
             'mightAlsoLikeProducts' => $mightAlsoLikeProducts,
+            'stockLevel' => $this->getStockLevel($product)
         ]);
+    }
+
+    protected function getStockLevel(Product $product)
+    {
+        $threshold = setting('site.stock_threshold');
+        $stockLevel = '<span class="badge badge-danger">Not Available</span>';
+        
+        if ($product->quantity > $threshold) {
+            $stockLevel = '<span class="badge badge-success">In Stock</span>';
+        } else if($product->quantity <= $threshold && $product->quantity > 0){
+            $stockLevel = '<span class="badge badge-warning">Low Stock</span>';
+        }
+        
+        return $stockLevel;
     }
 }

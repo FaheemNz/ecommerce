@@ -35,6 +35,7 @@ class CheckoutController extends Controller
             return redirect('thankyou')->with('success_message', 'Payment Recieved!');
         } catch (CardErrorException $e) {
             event(new OnOrderProcessed($checkoutRequest, $e->getMessage()));
+            
             return redirect()->back()->withErrors($e->getMessage());
         } finally {
             Cart::instance('default')->destroy();

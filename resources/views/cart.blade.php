@@ -30,6 +30,7 @@
                                     <img class="cart-image" src="{{ $item->options['image'] }}" alt="">
                                 </div>
                                 <div class="media-body">
+                                    <div class="font-weight-bold">{{ $item->name }}</div>
                                     <p>{{ $item->options['details'] }}</p>
                                 </div>
                             </a>
@@ -39,7 +40,7 @@
                         </td>
                         <td>
                             <div class="product_count">
-                                <select class="quantity" data-id="{{ $item->rowId }}" data-productQuantity="{{ $item->qty }}">
+                                <select class="quantity" data-id="{{ $item->rowId }}" data-productQuantity="{{ $item->options['totalQty'] }}">
                                     @for ($i = 1; $i < 5 + 1 ; $i++) <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                 </select>
@@ -160,6 +161,7 @@
                                     <img class="cart-image" src="{{ $item->options['image'] }}" alt="">
                                 </div>
                                 <div class="media-body ml-4">
+                                    <div class="font-weight-bold">{{ $item->name }}</div>
                                     <p>{{ $item->options['details'] }}</p>
                                 </div>
                             </a>
@@ -169,9 +171,10 @@
                         </td>
                         <td>
                             <div class="product_count">
-                                <select class="quantity" data-id="{{ $item->rowId }}" data-productQuantity="{{ $item->qty }}">
-                                    @for ($i = 1; $i < 5 + 1 ; $i++) <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                        @endfor
+                                <select class="quantity" data-id="{{ $item->rowId }}" data-productQuantity="{{ $item->options['totalQty'] }}">
+                                    @for ($i = 1; $i < 5 + 1 ; $i++) 
+                                    <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </td>
@@ -213,11 +216,13 @@
         function onQuantityUpdate() {
             const id = this.dataset.id,
                 data = {
-                    quantity: this.value
+                    quantity: this.value,
+                    totalQuantity: this.getAttribute('data-productQuantity')
                 };
 
             axios.put(`/cart/${id}`, data)
-                .then(response => response.status === 202 && updateCartUI(response.data));
+                .then(response => response.status === 202 && updateCartUI(response.data))
+                .catch(error => flash('Product cant be updated! Check in stock status.', 'alert-warning'));
         }
 
         function updateCartUI(responseData) {
@@ -228,6 +233,8 @@
             doc.getElementById('cart-subtotal').innerHTML = responseData.subtotal;
             doc.getElementById('cart-tax').innerHTML = responseData.tax;
             doc.getElementById('cart-nav-items-count').innerHTML = responseData.qty;
+            
+            flash('Product quantity updated...', 'alert-primary');
         }
     })();
 </script>
