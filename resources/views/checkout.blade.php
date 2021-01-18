@@ -27,27 +27,27 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                                <input type="text" class="form-control" id="name" name="name" value="NameA" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
+                                <input type="text" class="form-control" id="address" name="address" value="AddressA" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" required>
+                                <input type="text" class="form-control" id="city" name="city" value="CityA" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="province">Province</label>
-                                <input type="text" class="form-control" id="province" name="province" value="{{ old('province') }}" required>
+                                <input type="text" class="form-control" id="province" name="province" value="ProvinceA" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="postalcode">Postal Code</label>
-                                <input type="text" class="form-control" id="postalcode" name="postalcode" value="{{ old('postalcode') }}" required>
+                                <input type="text" class="form-control" id="postalcode" name="postalcode" value="42000" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" required>
+                                <input type="text" class="form-control" id="phone" name="phone" value="03001231231" required>
                             </div>
                             <div class="form-group col-md-12">
                                 <h4><i class="fa fa-money"></i> Payment</h4>
@@ -55,7 +55,7 @@
 
                             <div class="form-group col-md-12">
                                 <label for="name_on_card">Name on Card</label>
-                                <input type="text" class="form-control" id="name_on_card" name="name_on_card" value="">
+                                <input type="text" class="form-control" id="name_on_card" value="Sauban Munir" name="name_on_card" value="">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="card-element">
@@ -94,6 +94,7 @@
                                                         <img class="cart-image" src="{{ $item->options['image'] }}" alt="">
                                                     </div>
                                                     <div class="media-body">
+                                                        <div class="font-weight-bold">{{ $item->name }}</div>
                                                         <p>{{ $item->options['details'] }}</p>
                                                     </div>
                                                 </a>
@@ -171,15 +172,16 @@
         });
 
         // Handle form submission.
-        var form = document.getElementById('payment-form'),
-            submitButton = document.getElementById('complete-order');
-        form.addEventListener('submit', function(event) {
+        let submitButton = document.getElementById('complete-order');
+
+        submitButton.addEventListener('click', function(event) {
             event.preventDefault();
             
-            // Disable submit button
+            console.log('hey');
+            
             submitButton.disabled = true;
-
-            let options = {
+            
+            let stripeOptions = {
                 name: document.getElementById('name_on_card').value,
                 address_line1: document.getElementById('address').value,
                 address_city: document.getElementById('city').value,
@@ -187,7 +189,7 @@
                 address_zip: document.getElementById('postalcode').value
             };
 
-            stripe.createToken(card, options).then(function(result) {
+            stripe.createToken(card, stripeOptions).then(function(result) {
                 if (result.error) {
                     // Inform the user if there was an error.
                     var errorElement = document.getElementById('card-errors');
@@ -203,18 +205,17 @@
         // Submit the form with the token ID.
         function stripeTokenHandler(token) {
             // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
+            let form = document.getElementById('payment-form');
+            let hiddenInput = document.createElement('input');
+
             hiddenInput.setAttribute('type', 'hidden');
             hiddenInput.setAttribute('name', 'stripeToken');
             hiddenInput.setAttribute('value', token.id);
+
             form.appendChild(hiddenInput);
 
             // Submit the form
             form.submit();
-            
-            // Enable Submit Button
-            submitButton.disabled = false;
         }
     })();
 </script>

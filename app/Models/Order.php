@@ -27,8 +27,9 @@ class Order extends Model
     // Methods
     public function sendOrderProcessedEmail()
     {
-        $delay = Carbon::now()->addSeconds(10);
+        $delay = Carbon::now()->addSeconds(5);
         $job = (new ProductOrderEmailJob($this))->delay($delay);
+        
         dispatch($job);
     }
 }

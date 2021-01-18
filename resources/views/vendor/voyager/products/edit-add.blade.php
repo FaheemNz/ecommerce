@@ -217,6 +217,10 @@ $add = is_null($dataTypeContent->getKey());
 
         let price = $('input[name=price]');
         price.val(price.val() / 100);
+        
+        $('input[name=name]').on('blur', function() {
+            $('input[name=slug]').val( $(this).val().replace(/ +/g, '-').toLowerCase() );
+        });
     });
 </script>
 @stop

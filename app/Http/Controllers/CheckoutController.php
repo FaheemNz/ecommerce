@@ -16,7 +16,7 @@ class CheckoutController extends Controller
     }
 
     public function store(CheckoutRequest $checkoutRequest)
-    {
+    {   
         try {
             $charges = Stripe::charges()->create([
                 'amount' => Cart::total() / 100,

@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\OnOrderProcessed;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OnOrderProcessedListener
@@ -46,15 +47,17 @@ class OnOrderProcessedListener
             'error' => $event->error,
         ]);
         
-        // Prepare for bulk Insert into order_product pivot table
+        // Prepare for bulk Insert & Update into order_product pivot table
         foreach(Cart::content() as $cartItem){
-            $cartContent[] = ['order_id' => $order->id, 'product_id' => $cartItem->model->id, 'quantity' => $cartItem->qty];
+            $cartContent[] = ['order_id' => $order->id, 'product_id' => $cartItem->id, 'quantity' => $cartItem->qty];
+            $product = Product::find($cartItem->id);
+            $product->update(['quantity' => $product->quantity - $cartItem->qty]);
         }
         
         // Insert
         OrderProduct::insert($cartContent);
         
         // Send Email to the User
-        $order->sendOrderProcessedEmail();
+        //$order->sendOrderProcessedEmail();
     }
 }

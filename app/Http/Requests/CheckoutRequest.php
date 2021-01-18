@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutRequest extends FormRequest
 {
@@ -13,6 +14,13 @@ class CheckoutRequest extends FormRequest
      */
     public function authorize()
     {
+        foreach (Cart::content() as $item) {
+            $product = \App\Models\Product::find($item->id);
+            if ($product->quantity < $item->qty) {
+                return false;
+            }
+        }
+
         return true;
     }
 
