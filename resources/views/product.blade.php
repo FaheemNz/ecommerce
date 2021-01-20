@@ -16,8 +16,8 @@
         <x-session-feedback />
         <div class="row s_product_inner">
             <div class="col-lg-6">
-                <div class="product-image zoom-box" style="overflow: visible">
-                    <img id="main-image" style="width: 100%" class="img-fluid" src="{{ presentImage($product->image) }}" alt="" />
+                <div class="product-image zoom-box">
+                    <img id="main-image" style="width: 100%; height: 100%" class="img-fluid" src="{{ presentImage($product->image) }}" alt="" />
                 </div>
                 <div class="product-images d-flex mt-2">
                     <img src="{{ presentImage($product->image) }}" class="is-selected" alt="">
@@ -41,10 +41,10 @@
                     </ul>
                     <p>{{ $product->details }}</p>
                     <div>{!! $product->description !!}</div>
-
-                    <?php if (auth()->check() && $product->quantity > 0) : ?>
+                    
+                    @itemavailable($product->quantity)
                         <add-to-cart text="Add to Cart" :id="{{ $product->id }}" />
-                    <?php endif; ?>
+                    @enditemavailable
 
                     <div class="card_area d-flex align-items-center">
                         <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a>
@@ -55,11 +55,8 @@
         </div>
     </div>
 </div>
-<!--================End Single Product Area =================-->
 
-<!--================Product Description Area =================-->
 @include('partials.product-review')
-<!--================End Product Description Area =================-->
 
 @include('partials.might-like')
 
