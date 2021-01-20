@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profile', [App\Http\Controllers\UserController::class, 'edit'])->name('profile');
+Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
+Route::post('/profile/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('profile.update');
 Route::view('/contact', 'contact')->name('contact');
 
 Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index'])->name('landing');

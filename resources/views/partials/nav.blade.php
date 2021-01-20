@@ -20,17 +20,28 @@
                         @auth
                         <li class="nav-item">
                             <button class="{{ request()->routeIs('cart.index') ? 'border px-2 border-primary' : '' }}">
-                            <a href="/cart" class="text-dark">
-                                <i class="fa fa-shopping-cart"></i>
-                                <span id="cart-nav-items-count" class="nav-shop__circle">{{ Cart::count() }}</span>
-                            </a>
+                                <a href="/cart" class="text-dark">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span id="cart-nav-items-count" class="nav-shop__circle">{{ Cart::count() }}</span>
+                                </a>
                             </button>
                         </li>
-                        <li class="nav-item ml-1">
-                            <a class="button button-header" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle btn border" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i class="fa fa-user mr-2"></i> Profile</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                   <i class="fa fa-gear mr-2"></i> {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         </li>
                         @endauth
                     </ul>

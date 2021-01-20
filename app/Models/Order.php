@@ -13,7 +13,7 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $guarded = [];
-
+    
     // Relationships
     public function user()
     {

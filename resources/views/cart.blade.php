@@ -2,8 +2,6 @@
 
 @section('content')
 
-<x-breadcrumbs link2="Cart" />
-
 <div class="container py-5">
     <x-session-feedback />
 
