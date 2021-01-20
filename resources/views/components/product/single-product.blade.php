@@ -2,16 +2,12 @@
     <a href="{{ route('shop.show', $product->slug) }}">
         <div class="card-product__img">
             <img class="card-img" src="{{ $product->image }}" alt="{{ $product->name }}" />
-
-            <?php if ($product->quantity > 0) : ?>
-                <ul class="card-product__imgOverlay">
-                    <li>
-                        <add-to-cart :id="{{ json_encode($product->id) }}" />
-                    </li>
-                    <li><button><i class="fa fa-heart"></i></button></li>
-                </ul>
-            <?php endif; ?>
-
+            <ul class="card-product__imgOverlay">
+                <li>
+                    <add-to-cart :id="{{ json_encode($product->id) }}" />
+                </li>
+                <li><button><i class="fa fa-heart"></i></button></li>
+            </ul>
         </div>
     </a>
     <div class="card-body">

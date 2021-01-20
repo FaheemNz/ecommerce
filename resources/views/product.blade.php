@@ -2,6 +2,10 @@
 
 @section('title', $product->name)
 
+@section('extra-css')
+<link rel="stylesheet" href="{{ asset('css/jquery.jqZoom.css') }}" />
+@endsection
+
 @section('content')
 
 <x-breadcrumbs link1="{{ route('shop.index') }}|Shop" link2="{{ $product->name }}" />
@@ -12,7 +16,7 @@
         <x-session-feedback />
         <div class="row s_product_inner">
             <div class="col-lg-6">
-                <div class="product-image">
+                <div class="product-image zoom-box" style="overflow: visible">
                     <img id="main-image" style="width: 100%" class="img-fluid" src="{{ presentImage($product->image) }}" alt="" />
                 </div>
                 <div class="product-images d-flex mt-2">
@@ -62,6 +66,7 @@
 @endsection
 
 @section('extra-js')
+<script src="{{ asset('js/jquery.jqZoom.js') }}"></script>
 <script>
     (function() {
         let productImages = document.querySelectorAll('.product-images>img'),
@@ -74,5 +79,14 @@
             this.classList.add('is-selected');
         }
     })();
+
+    $(function() {
+        $("#main-image").jqZoom({
+            selectorWidth: 30,
+            selectorHeight: 30,
+            viewerWidth: 400,
+            viewerHeight: 300
+        });
+    });
 </script>
 @endsection
